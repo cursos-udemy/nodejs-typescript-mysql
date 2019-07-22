@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 
 
 // class ServerBuilder {
@@ -18,20 +19,25 @@ export default class Server {
         this.port = port;
     }
 
-    static init (port: number) {
+    static init(port: number): Server {
         return new Server(port);
     }
 
-    public start(callback: VoidFunction ) {
+    private publicFolder(): void {
+        const publicPath = path.resolve(__dirname, '../public');
+        this.app.use(express.static(publicPath));
+    }
 
+    public start(callback: VoidFunction): void {
+        this.publicFolder();
         this.app.listen(this.port, callback);
     }
 
-    public getApp() {
+    public getApp(): express.Application {
         return this.app;
     }
 
-    public getPort() {
+    public getPort(): number {
         return this.port;
     }
 }
