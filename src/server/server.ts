@@ -15,7 +15,7 @@ export default class Server {
     private port: number = 3000;
 
 
-    protected constructor(port: number) {
+    private constructor(port: number) {
         this.port = port;
     }
 
