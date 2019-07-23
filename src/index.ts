@@ -6,7 +6,7 @@ const server = Server.init(3000);
 
 server.getApp().use(router);
 
-const mysql = new MySQL();
+const mysql: MySQL = MySQL.instance;
 
 server.start((): void => {
     //if (err) throw new Error(err);

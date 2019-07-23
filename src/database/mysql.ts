@@ -6,7 +6,7 @@ export default class MySQL {
     private static _instance: MySQL;
     private connection: mysql.Connection;
 
-    constructor() {
+    private constructor() {
         console.log('mySQL constructor!');
         this.connection = mysql.createConnection({
             host: '192.168.0.201',
@@ -24,6 +24,25 @@ export default class MySQL {
             console.info('Connection database [OK]');
         });
     }
+
+    public static get instance(): MySQL {
+        return this._instance || (this._instance = new this());
+    }
+
+    public static executeQuery(query: string, callback: Function): any {
+        this.instance.connection.query(query, (err: mysql.MysqlError, results: Object[], fields: string[]) => {
+            if (err) {
+                console.error('Error al ejecutar el query', err.message);
+                return callback('Error al ejecutar el query');
+            }
+            callback(null, results);
+        });
+    }
+
+    public static escape(id: any): string {
+        return mysql.escape(id)
+    }
+
 }
 
 
